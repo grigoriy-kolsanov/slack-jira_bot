@@ -70,6 +70,7 @@ if client.rtm_connect():
                   break
                 channel_id = data['channel']
                 thread_ts = data['ts']
+                #у этих людей почта с другим доменом, для них меняем домен
                 admins={'kolsanovgn','baryshnikovve','severtsevaaa'}
                 #в этот список добавте команду, елси эта команда в одно слово(без ключей)
                 one_word_commands=['my_email','my_tasks','help','strategy','library','agile','customize','get_api']
@@ -398,7 +399,7 @@ if client.rtm_connect():
                         )
                         logging.info('empty message')
                       else:
-                        #если не удалось найти команду
+                        #если не удалось найти команду в списке всех команд
                         client.api_call('chat.postMessage',
                         channel=channel_id,
                         text='dont undertand command: *'+command.split(' ')[0]+'*\nTry command *help*',
@@ -406,7 +407,6 @@ if client.rtm_connect():
                         icon_emoji=':x:',
                         username='this is your ERROR_bot'
                         )
-                        logging.info('user tried command '+command.split(' ')[0]+' but bot cant find this command')
-        time.sleep(1)            
+                        logging.info('user tried command '+command.split(' ')[0]+' but bot cant find this command')           
 else: 
   print ("Connection Failed")
