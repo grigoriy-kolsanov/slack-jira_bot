@@ -46,11 +46,24 @@ if client.rtm_connect():
                       channel='U017BN1DYHK',
                       text='It s ok, connected')
     logging.info('It s ok, connected')
-    while client.server.connected is True:
-        for data in client.rtm_read():
+    vilet=False
+    count_times=0
+    while True:
+        try:
+          incoming_messages=client.rtm_read()
+        except:
+          if vilet==False:
+            client.api_call('chat.postMessage',
+                      channel='U017BN1DYHK',
+                      text='вот и вылетел бот максим')
+            vilet=True
+          time.sleep(1)
+          continue
+        for data in incoming_messages:
             if "type" in data and data["type"] == "message":
               if 'user' in data and '<@'+client.api_call("auth.test")["user_id"]+'>' in data['text']:
                 user=data['user']
+                count_times+=1
                 yui=requests.get('https://slack.com/api/users.info?token='+slack_token+'&user='+user+'&pretty=1') 
                 try:
                   json_answ=json.loads(yui.text)
@@ -70,12 +83,12 @@ if client.rtm_connect():
                   break
                 channel_id = data['channel']
                 thread_ts = data['ts']
-                #у этих людей почта с другим доменом, для них меняем домен
                 admins={'kolsanovgn','baryshnikovve','severtsevaaa'}
                 #в этот список добавте команду, елси эта команда в одно слово(без ключей)
-                one_word_commands=['my_email','my_tasks','help','strategy','library','agile','customize','get_api']
+                one_word_commands=['my_email','my_tasks','help','strategy','library','agile','customize','get_api','status']
                 #сюда добавляйте команды с ключами.
                 other_commands=['comment [key] [message]','show_comments [key]']
+
                 all_commands=one_word_commands+['comment']
                 if command.split(' ')[0]=='test':
                   command=' '.join(command.split(' ')[1:])
@@ -104,6 +117,37 @@ if client.rtm_connect():
                 #здесь начинаются команды в одно слово
                 if command.split(' ')[0] in one_word_commands:
                     #сюда можно добавить команду
+                    if command.split(' ')[0]=='status':
+                     if channel_id==keys.adm_ch:
+                      client.api_call('chat.postMessage',
+                         channel=channel_id,
+                         text=str(count_times)+' times',
+                         thread_ts=thread_ts,
+                         icon_emoji=':+1:',
+                         username='this is your status_bot'
+                      )
+                      count_times=0
+                     else:
+                      client.api_call('chat.postMessage',
+                          channel=channel_id,
+                          text='ya not allowed to do this command',
+                          thread_ts=thread_ts,
+                          icon_emoji=':x:',
+                          username='this is your ERROR_bot'
+                          )
+                      yui=requests.get('https://slack.com/api/users.info?token='+slack_token+'&user='+user+'&pretty=1')
+                      try:
+                        json_answ=json.loads(yui.text)
+                      except:
+                        print('bum')
+                      client.api_call('chat.postMessage',
+                      channel=keys.adm_ch,
+                      text=json_answ['user']['profile']['email']+' try to use "status" command',
+                      thread_ts=thread_ts,
+                      icon_emoji=':+1:',
+                      username='this is your ADMIN_bot'
+                      )
+
                     if command.split(' ')[0]=='strategy':
                       client.api_call('chat.postMessage',
                       channel=channel_id,
@@ -399,7 +443,7 @@ if client.rtm_connect():
                         )
                         logging.info('empty message')
                       else:
-                        #если не удалось найти команду в списке всех команд
+                        #если не удалось найти команду
                         client.api_call('chat.postMessage',
                         channel=channel_id,
                         text='dont undertand command: *'+command.split(' ')[0]+'*\nTry command *help*',
@@ -407,6 +451,7 @@ if client.rtm_connect():
                         icon_emoji=':x:',
                         username='this is your ERROR_bot'
                         )
-                        logging.info('user tried command '+command.split(' ')[0]+' but bot cant find this command')           
+                        logging.info('user tried command '+command.split(' ')[0]+' but bot cant find this command')
+        time.sleep(1)            
 else: 
   print ("Connection Failed")
