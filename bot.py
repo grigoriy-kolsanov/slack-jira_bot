@@ -19,12 +19,12 @@ url = keys.url
 try:
   s.post(url, data=data)
   client.api_call('chat.postMessage',
-                      channel='U017BN1DYHK',
+                      channel=keys.adm_ch,
                       text='ji-test is ok')
   logging.info('ji-test is ok')
 except:
   client.api_call('chat.postMessage',
-                      channel='U017BN1DYHK',
+                      channel=keys.adm_ch,
                       text='cannot connect to jira-test')
   logging.info('cannot connect to jira-test')
 data2 =keys.data2
@@ -32,33 +32,31 @@ url2 = keys.url2
 try:
   s.post(url2, data=data2)
   client.api_call('chat.postMessage',
-                      channel='U017BN1DYHK',
+                      channel=keys.adm_ch,
                       text='ji is ok')
   logging.info('ji is ok')
 except:
   client.api_call('chat.postMessage',
-                      channel='U017BN1DYHK',
+                      channel=keys.adm_ch,
                       text='cannot connect to jira')
   logging.info('cannot connect to jira')
 curlic = keys.curlic
 if client.rtm_connect():
     client.api_call('chat.postMessage',
-                      channel='U017BN1DYHK',
+                      channel=keys.adm_ch,
                       text='It s ok, connected')
     logging.info('It s ok, connected')
-    vilet=False
     count_times=0
     while True:
         try:
           incoming_messages=client.rtm_read()
         except:
-          if vilet==False:
             client.api_call('chat.postMessage',
-                      channel='U017BN1DYHK',
+                      channel=keys.adm_ch,
                       text='вот и вылетел бот максим')
-            vilet=True
-          time.sleep(1)
-          continue
+            client.rtm_connect() 
+            time.sleep(1)
+            continue
         for data in incoming_messages:
             if "type" in data and data["type"] == "message":
               if 'user' in data and '<@'+client.api_call("auth.test")["user_id"]+'>' in data['text']:
@@ -75,7 +73,7 @@ if client.rtm_connect():
                   command= '>'.join(data['text'].split('>')[1:])
                   command=' '.join(command.split())
                   client.api_call('chat.postMessage',
-                      channel='U017BN1DYHK',
+                      channel=keys.adm_ch,
                       text='got message from:'+json_answ['user']['profile']['email']+'\n'+command)
                   logging.info('got message from:'+json_answ['user']['profile']['email']+'\n'+command+'\nTime=')
                   logging.info(datetime.datetime.now())
@@ -98,7 +96,7 @@ if client.rtm_connect():
                 reqji=s.get(curlic+'?os_authType=basic')
                 if(reqji.status_code==401):
                   client.api_call('chat.postMessage',
-                      channel='U017BN1DYHK',
+                      channel=keys.adm_ch,
                       text='back to jira test')
                   try:
                     s.post(keys.url2, data=keys.data2)
@@ -110,7 +108,7 @@ if client.rtm_connect():
                   try:
                     s.post(keys.url, data=keys.data)
                     client.api_call('chat.postMessage',
-                       channel='U017BN1DYHK',
+                       channel=keys.adm_ch,
                        text='back to jira')
                   except:
                     print('cannot connect to jira-test')
@@ -328,7 +326,7 @@ if client.rtm_connect():
                            except:
                               client.api_call('chat.postMessage',
                               channel=channel_id,
-                              text='its hard access to joe casino',
+                              text='its hard access',
                               thread_ts=thread_ts,
                               icon_emoji=':x:',
                               username='this is your ERROR_bot')
@@ -349,7 +347,7 @@ if client.rtm_connect():
                              if result[0]=='User has no permission to add comment':
                               client.api_call('chat.postMessage',
                               channel=channel_id,
-                              text='access denied',                      
+                              text='access denied',
                               thread_ts=thread_ts,
                               icon_emoji=':x:',
                               username='this is your ERROR_bot'
@@ -452,6 +450,6 @@ if client.rtm_connect():
                         username='this is your ERROR_bot'
                         )
                         logging.info('user tried command '+command.split(' ')[0]+' but bot cant find this command')
-        time.sleep(1)            
-else: 
+        time.sleep(1)
+else:
   print ("Connection Failed")
