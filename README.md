@@ -1,10 +1,12 @@
-# slack-jira_bot
-РЕЗЮМЕ
 
-Колсанов Григорий Николаевич, 20 лет.
+РЕЗЮМЕ 
+<table border=0>
+<tr>
+<td><img src="https://sun9-60.userapi.com/PxeJKT7_3UPqjReVE3O2tViTjUtkrRUz5su7yg/D42kddXqE2A.jpg" width="40" height="60" /></td> <td> Колсанов Григорий Николаевич, 20 лет.
 
 Тел. *+7-915-466-30-27* E-mail: *grigoriy.kolsanov@gmail.com*
-
+</td></tr>
+</table>
 Москва, м. Авиамоторная.
 
 Желаемая должность: Джуниор разработчик.
