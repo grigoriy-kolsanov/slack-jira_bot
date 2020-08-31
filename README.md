@@ -2,7 +2,7 @@
 РЕЗЮМЕ 
 <table border=0>
 <tr>
-<td><img src="https://sun9-60.userapi.com/PxeJKT7_3UPqjReVE3O2tViTjUtkrRUz5su7yg/D42kddXqE2A.jpg" width="40" height="60" /></td> <td> Колсанов Григорий Николаевич, 20 лет.
+<td width=70 heigth=80><img src="https://sun9-60.userapi.com/PxeJKT7_3UPqjReVE3O2tViTjUtkrRUz5su7yg/D42kddXqE2A.jpg" width="50" height="60" /></td> <td> Колсанов Григорий Николаевич, 20 лет.
 
 Тел. *+7-915-466-30-27* E-mail: *grigoriy.kolsanov@gmail.com*
 </td></tr>
